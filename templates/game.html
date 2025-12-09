@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>🎲 Number Guessing Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🎲 Guess the Number!</h1>
+
+        <form method="POST">
+            <input type="text" name="player_name" placeholder="Enter your name" value="{{ player_name }}" required>
+            <input type="number" name="max_number" placeholder="Set max number" value="{{ max_number }}" required>
+            <button type="submit" name="set_game">Start / Reset Game</button>
+        </form>
+
+        {% if player_name %}
+        <form method="POST">
+            <input type="number" name="guess" placeholder="Enter your guess" required>
+            <button type="submit">Guess</button>
+        </form>
+
+        <p class="message">{{ message }}</p>
+        <p>Attempts: {{ attempts }}</p>
+        <p>Previous guesses: {{ guesses }}</p>
+        {% endif %}
+
+        {% if game_over %}
+        <form method="GET">
+            <button type="submit" name="restart" value="1">Restart Game 🔄</button>
+        </form>
+        {% endif %}
+
+        <div class="leaderboard">
+            <h3>🏆 Leaderboard (Top 10)</h3>
+            <ol>
+            {% for g in leaderboard %}
+                <li>{{ g.player_name }} guessed {{ g.secret_number }} in {{ g.attempts }} attempts on {{ g.timestamp.strftime('%Y-%m-%d %H:%M') }}</li>
+            {% endfor %}
+            </ol>
+        </div>
+
+        <div class="footer">
+            Made with ❤️ using Flask & PostgreSQL
+        </div>
+    </div>
+</body>
+</html>
