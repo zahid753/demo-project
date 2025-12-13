@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  # Service 1: PostgreSQL Database
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      # These MUST match the credentials in your game_code.py:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: zahid
+      POSTGRES_DB: game_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # Service 2: Your Game Application
+  app:
+    build: .                          # Builds the image using the Dockerfile in the current directory
+    ports:
+      - "5000:5000"                   # Maps container port 5000 to host port 5000
+    depends_on:
+      - db                            # Ensures 'db' starts before 'app'
+    volumes:
+      # Mounts your local folder to /app, allowing the container to find game_code.py
+      - .:/app                        
+
+volumes:
+  pgdata:

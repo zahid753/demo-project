@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.secret_key = "supersecretkey"
 
 # PostgreSQL database setup
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:zahid@localhost/game_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:zahid@db/game_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -96,4 +96,4 @@ def game():
                            leaderboard=leaderboard)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0',debug=True)
